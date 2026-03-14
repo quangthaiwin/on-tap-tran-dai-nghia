@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn thi Trần Đại Nghĩa lớp 6 - Đủ câu hỏi trắc nghiệm</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #f0f7fb;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1300px;
+            margin: auto;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,20,50,0.1);
+            padding: 25px 30px;
+        }
+        h1 {
+            color: #0a3b5b;
+            border-left: 8px solid #f4b400;
+            padding-left: 20px;
+        }
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 25px 0 15px;
+        }
+        .tab-btn {
+            background: #e9f0f5;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #0a3b5b;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .tab-btn.active {
+            background: #0a3b5b;
+            color: white;
+            box-shadow: 0 8px 14px rgba(10,59,91,0.3);
+        }
+        .tab-pane {
+            display: none;
+            animation: fade 0.3s;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        @keyframes fade { from { opacity: 0.3; } to { opacity: 1; } }
+
+        .test-section {
+            background: #f9fcfd;
+            border-radius: 28px;
+            padding: 20px 25px;
+            margin: 20px 0;
+            border: 1px solid #d9e8f2;
+        }
+        .part-title {
+            background: #d4e7f1;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            color: #064663;
+            margin: 25px 0 15px;
+            font-size: 1.3rem;
+        }
+        .question {
+            background: white;
+            border-radius: 20px;
+            padding: 18px 22px;
+            margin-bottom: 18px;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.02);
+            border: 1px solid #e2edf5;
+            border-left: 6px solid #b3daf5;
+        }
+        .question p {
+            margin: 0 0 12px 0;
+            font-weight: 600;
+            color: #1b3b4f;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px 30px;
+            align-items: center;
+        }
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        input[type="radio"] {
+            accent-color: #0f6b8c;
+            width: 18px;
+            height: 18px;
+        }
+        .fill-input {
+            padding: 10px 15px;
+            border: 2px solid #cbdde9;
+            border-radius: 40px;
+            width: 100%;
+            max-width: 350px;
+            font-size: 1rem;
+        }
+        .btn {
+            background: white;
+            border: 2px solid #0a3b5b;
+            color: #0a3b5b;
+            padding: 10px 24px;
+            border-radius: 60px;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 5px 10px 5px 0;
+        }
+        .btn-primary {
+            background: #0a3b5b;
+            color: white;
+            border: none;
+        }
+        .score-badge {
+            background: #f4b400;
+            color: #1d3e53;
+            padding: 10px 25px;
+            border-radius: 40px;
+            display: inline-block;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .answer-key {
+            background: #eaf4e8;
+            border-radius: 16px;
+            padding: 10px 18px;
+            margin-top: 15px;
+            border-left: 5px solid #2e7d32;
+            display: none;
+        }
+        .answer-key.show { display: block; }
+        .model-answer {
+            background: #fef8e7;
+            padding: 14px 20px;
+            border-radius: 18px;
+            border-left: 5px solid #f4b400;
+            margin: 10px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #5f7d95;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📘 5 Đề ôn Trần Đại Nghĩa 2026 - Đầy đủ câu hỏi trắc nghiệm</h1>
+
+    <div class="tabs" id="tabHeaders">
+        <button class="tab-btn active" data-tab="tab1">📋 Đề 1</button>
+        <button class="tab-btn" data-tab="tab2">📋 Đề 2</button>
+        <button class="tab-btn" data-tab="tab3">📋 Đề 3</button>
+        <button class="tab-btn" data-tab="tab4">📋 Đề 4</button>
+        <button class="tab-btn" data-tab="tab5">📋 Đề 5</button>
+    </div>
+
+    <!-- Nội dung các đề - mỗi đề phần trắc nghiệm đã được nhúng câu hỏi -->
+    <div id="tab1" class="tab-pane active">
+        <div class="test-section">
+            <h2>ĐỀ SỐ 1 (chi tiết)</h2>
+            <div class="part-title">🔹 PHẦN 1: TRẮC NGHIỆM (20 câu)</div>
+            <div id="de1-tracnghiem"></div>
+            <button class="btn btn-primary" onclick="scoreTN('de1')">✅ Chấm điểm trắc nghiệm Đề 1</button>
+            <span id="de1-score" class="score-badge">0/20</span>
+
+            <hr>
+            <div class="part-title">🔸 TỰ LUẬN (đáp án mẫu)</div>
+            <div class="model-answer">📌 <strong>Đáp án tự luận đề 1:</strong> Listening (Science, Geography, Monday, interesting, kind) ; Reading (by plane, cool, Valley of Love/Xuan Huong Lake, artichoke tea/strawberry jam, fresh air) ; Toán (12500, 360)...</div>
+        </div>
+    </div>
+
+    <div id="tab2" class="tab-pane"><div class="test-section"><h2>ĐỀ SỐ 2</h2><div id="de2-tracnghiem"></div><button class="btn btn-primary" onclick="scoreTN('de2')">✅ Chấm điểm Đề 2</button><span id="de2-score" class="score-badge">0/20</span></div></div>
+    <div id="tab3" class="tab-pane"><div class="test-section"><h2>ĐỀ SỐ 3</h2><div id="de3-tracnghiem"></div><button class="btn btn-primary" onclick="scoreTN('de3')">✅ Chấm điểm Đề 3</button><span id="de3-score" class="score-badge">0/20</span></div></div>
+    <div id="tab4" class="tab-pane"><div class="test-section"><h2>ĐỀ SỐ 4</h2><div id="de4-tracnghiem"></div><button class="btn btn-primary" onclick="scoreTN('de4')">✅ Chấm điểm Đề 4</button><span id="de4-score" class="score-badge">0/20</span></div></div>
+    <div id="tab5" class="tab-pane"><div class="test-section"><h2>ĐỀ SỐ 5</h2><div id="de5-tracnghiem"></div><button class="btn btn-primary" onclick="scoreTN('de5')">✅ Chấm điểm Đề 5</button><span id="de5-score" class="score-badge">0/20</span></div></div>
+    <footer>✅ Toàn bộ câu hỏi trắc nghiệm đã được hiển thị. Học sinh chọn đáp án và bấm chấm điểm.</footer>
+</div>
+
+<script>
+    // ------------------------------------------------------------
+    // KHO ĐỀ: nội dung 20 câu hỏi cho từng đề (dựa trên ảnh đề mẫu)
+    // ------------------------------------------------------------
+    const cauHoi = {
+        de1: [
+            "Quá trình nào sau đây là sự biến đổi hóa học? A) Hòa tan đường B) Xé giấy C) Đốt cháy que diêm D) Nước đá tan",
+            "Hình chữ nhật có chiều dài gấp đôi chiều rộng. Tăng chiều rộng 3m, diện tích tăng 36m². Chiều dài ban đầu? A)12m B)18m C)24m D)30m",
+            "Ai lãnh đạo khởi nghĩa Lam Sơn? A) Ngô Quyền B) Lý Thường Kiệt C) Trần Hưng Đạo D) Lê Lợi",
+            "Sông dài nhất thế giới? A) Amazon B) Nile C) Trường Giang D) Mississippi",
+            "Hành động nào thể hiện quan tâm hàng xóm? A) Mượn đồ khi vắng nhà B) Trông nhà giúp họ C) Bật nhạc to D) Vứt rác sang nhà",
+            "Vật nào là nguồn sáng? A) Mặt Trăng B) Cái bàn C) Quyển sách D) Mặt Trời",
+            "Vitamin nào chống bệnh scorbut? A) A B) B C) C D) D",
+            "Tìm số tiếp theo: 2,6,12,20,30,? A)36 B)40 C)42 D)48",
+            "Phát âm khác: home, come, go, no (gạch chân o) A)home B)come C)go D)no",
+            "'What does your mother do?' – 'She is a _______. Works in hospital.' A)teacher B)nurse C)worker D)farmer",
+            "Tết Nguyên Đán còn gọi là? A) Trung Thu B) Đoan Ngọ C) Cổ truyền D) Hàn Thực",
+            "Động vật ăn thịt? A) Trâu B) Bò C) Hổ D) Thỏ",
+            "1/2 + 2/3 = ? A)3/5 B)3/6 C)7/6 D)5/6",
+            "Thiết bị kết nối Internet? A) Bàn phím B) Chuột C) Modem D) Loa",
+            "Nhạc cụ bộ dây? A) Trống B) Kèn C) Đàn bầu D) Sáo",
+            "Tìm lỗi sai: 'She go to school by bus every day.' A) go B) to school C) by D) bus",
+            "Để tiết kiệm điện nên? A) Bật đèn cả ngày B) Tắt thiết bị khi không dùng C) Điều hòa thấp nhất D) Mở tủ lạnh thường xuyên",
+            "Ngày và đêm luân phiên do? A) Mặt trời mọc đông B) Trái đất tự quay C) Mặt trăng quay D) Trái đất quay quanh mặt trời",
+            "Bộ phận hút nước của cây? A) Thân B) Lá C) Hoa D) Rễ",
+            "'Yesterday, I _______ a film.' A) see B) saw C) seeing D) have seen"
+        ],
+        de2: [
+            "Dãy núi dài nhất Việt Nam? A) Hoàng Liên Sơn B) Trường Sơn C) Tam Đảo D) Bạch Mã",
+            "Từ viết đúng chính tả? A) Xa lánh B) Sa lánh C) Xa lán D) Sa lạng",
+            "25% của 200 là? A)25 B)50 C)75 D)100",
+            "Which one is different? A) Apple B) Banana C) Carrot D) Orange",
+            "Tác giả 'Bình Ngô đại cáo'? A) Nguyễn Trãi B) Lý Thường Kiệt C) Trần Quốc Tuấn D) Lê Lợi",
+            "Hành tinh gần Mặt Trời nhất? A) Sao Kim B) Sao Hỏa C) Sao Thủy D) Trái Đất",
+            "Điền số: 1,4,9,16,25,? A)30 B)36 C)32 D)35",
+            "'My father is a _______ . He writes for a newspaper.' A) doctor B) journalist C) teacher D) driver",
+            "Vua dời đô ra Thăng Long? A) Lý Thánh Tông B) Lý Thái Tổ C) Trần Thái Tông D) Lê Thái Tổ",
+            "Nước có diện tích lớn nhất? A) Canada B) Trung Quốc C) Mỹ D) Nga",
+            "0,5 × 0,4 = ? A)0,02 B)0,2 C)2,0 D)0,002",
+            "Con vật đẻ trứng? A) Chó B) Mèo C) Gà D) Bò",
+            "Tìm lỗi sai: 'The boys is playing football.' A) The boys B) is C) playing D) in the yard",
+            "Màu xanh lá cây do bộ phận? A) Rễ B) Thân C) Hoa D) Diệp lục",
+            "Ngày Quốc tế Thiếu nhi? A) 1/5 B) 1/6 C) 2/9 D) 20/11",
+            "Phân số lớn nhất: 3/4, 5/6, 7/8 ? A)3/4 B)5/6 C)7/8 D) bằng nhau",
+            "Thành phố 'Hòn ngọc Viễn Đông'? A) Hà Nội B) Đà Nẵng C) Huế D) Sài Gòn",
+            "'I'm very _______ . I want something to eat.' A) thirsty B) hungry C) tired D) happy",
+            "Năm 2024 là con gì? A) Mèo B) Rồng C) Rắn D) Ngựa",
+            "Tác dụng đeo khẩu trang? A) Làm đẹp B) Chống nắng C) Ngăn bụi và vi khuẩn D) Giữ ấm"
+        ],
+        de3: [
+            "Câu 1 đề 3 (mẫu): Nước chiếm bao nhiêu % bề mặt Trái Đất? A) 50% B) 60% C) 71% D) 80%",
+            "Câu 2 đề 3: Ai là người Việt Nam đầu tiên bay vào vũ trụ? A) Phạm Tuân B) Nguyễn Tuân C) Lê Văn D) Hoàng Minh",
+            "Câu 3: Phép tính 12,5 × 0,8 = ? A) 1 B) 10 C) 100 D) 1000",
+            "Câu 4: Từ 'mênh mông' thuộc từ loại gì? A) Danh từ B) Động từ C) Tính từ D) Đại từ",
+            "Câu 5: Vườn quốc gia nào nổi tiếng ở Quảng Bình? A) Cúc Phương B) Phong Nha C) Ba Vì D) Yok Đôn",
+            "Câu 6: She _______ to music now. A) listen B) listens C) is listening D) listened",
+            "Câu 7: Tác giả 'Dế Mèn phiêu lưu ký'? A) Tô Hoài B) Nguyễn Nhật Ánh C) Võ Quảng D) Trần Đăng Khoa",
+            "Câu 8: Gấu Bắc Cực có màu lông gì? A) Trắng B) Đen C) Nâu D) Xám",
+            "Câu 9: 1 giờ = ... giây? A) 360 B) 3600 C) 60 D) 86400",
+            "Câu 10: 'I _______ a student.' A) is B) are C) am D) be",
+            "Câu 11: Cây nào thuộc loại thân gỗ? A) Lúa B) Ngô C) Xoài D) Khoai lang",
+            "Câu 12: Thành phần chính của không khí? A) O2 & N2 B) CO2 & O2 C) N2 & H2 D) O2 & H2",
+            "Câu 13: Tìm x: x + 3,5 = 7,2. A) 3,7 B) 4,7 C) 10,7 D) 3,2",
+            "Câu 14: Đồng bằng lớn nhất Việt Nam? A) Bắc Bộ B) Nam Bộ C) Duyên hải miền Trung D) Tây Nguyên",
+            "Câu 15: 'Happy birthday' dùng khi nào? A) Giáng sinh B) Tết C) Sinh nhật D) Khai giảng",
+            "Câu 16: Nước nào có kim tự tháp? A) Ai Cập B) Hy Lạp C) La Mã D) Ấn Độ",
+            "Câu 17: Bộ phận nào giúp cá thở? A) Vây B) Mang C) Vảy D) Đuôi",
+            "Câu 18: Ròng rọc là ứng dụng của? A) Cơ học B) Điện học C) Quang học D) Hóa học",
+            "Câu 19: Ngày Nhà giáo Việt Nam? A) 20/10 B) 20/11 C) 22/12 D) 8/3",
+            "Câu 20: 'We go to school _______ Monday.' A) in B) at C) on D) by"
+        ],
+        de4: [
+            "Câu 1 đề 4: Đỉnh núi cao nhất Việt Nam? A) Phanxipăng B) Tây Côn Lĩnh C) Bạch Mã D) Ngọc Linh",
+            "Câu 2: 3/5 viết dưới dạng số thập phân? A) 0,3 B) 0,6 C) 0,35 D) 0,5",
+            "Câu 3: Ai là tác giả 'Hạt gạo làng ta'? A) Trần Đăng Khoa B) Xuân Quỳnh C) Tố Hữu D) Huy Cận",
+            "Câu 4: Dòng sông nào chảy qua TP.HCM? A) Sông Hồng B) Sông Đồng Nai C) Sông Sài Gòn D) Sông Cửu Long",
+            "Câu 5: Từ đồng nghĩa với 'bao la'? A) chật hẹp B) mênh mông C) nhỏ bé D) xa xôi",
+            "Câu 6: Yesterday, they _______ to the museum. A) go B) went C) goes D) going",
+            "Câu 7: Thiên nhiên miền Bắc mùa đông có đặc điểm? A) nóng ẩm B) lạnh khô C) mưa nhiều D) mát mẻ",
+            "Câu 8: Tìm hai số biết tổng 100, hiệu 20. A) 60 và 40 B) 70 và 30 C) 50 và 50 D) 80 và 20",
+            "Câu 9: 'Màu vàng' tiếng Anh là? A) blue B) yellow C) green D) red",
+            "Câu 10: Loại quả nào giàu vitamin C? A) Chuối B) Cam C) Táo D) Nho",
+            "Câu 11: Ai viết 'Bác Hồ - Người cho em tất cả'? A) Phạm Tuyên B) Văn Cao C) Trịnh Công Sơn D) Hoàng Vân",
+            "Câu 12: 2 giờ 30 phút = ... phút? A) 150 B) 120 C) 90 D) 180",
+            "Câu 13: Nguồn nước ngọt chính trên Trái Đất? A) Sông hồ B) Nước ngầm C) Băng D) Biển",
+            "Câu 14: 'She is _______ than her sister.' A) tall B) taller C) tallest D) the tallest",
+            "Câu 15: Vua Quang Trung đại phá quân Thanh năm nào? A) 1788 B) 1789 C) 1790 D) 1802",
+            "Câu 16: Cơ quan nào bài tiết mồ hôi? A) Phổi B) Thận C) Da D) Gan",
+            "Câu 17: 10% của 500 là? A) 5 B) 50 C) 500 D) 0,5",
+            "Câu 18: Từ trái nghĩa với 'vui vẻ'? A) hạnh phúc B) buồn bã C) phấn khởi D) hân hoan",
+            "Câu 19: Động vật nào có nguy cơ tuyệt chủng? A) Gà B) Voi C) Bò D) Lợn",
+            "Câu 20: 'How _______ books are there?' A) much B) many C) old D) often"
+        ],
+        de5: [
+            "Câu 1 đề5: Nhà bác học Niu-tơn phát minh ra? A) điện thoại B) bóng đèn C) định luật vạn vật hấp dẫn D) máy tính",
+            "Câu 2: 8,5 × 10 = ? A) 0,85 B) 85 C) 850 D) 8500",
+            "Câu 3: Truyện 'Thánh Gióng' thể hiện? A) lòng yêu nước B) tình bạn C) sự thông minh D) lòng biết ơn",
+            "Câu 4: 'Chạy' thuộc từ loại? A) Danh từ B) Động từ C) Tính từ D) Đại từ",
+            "Câu 5: Nhiệt độ cơ thể người bình thường? A) 35°C B) 37°C C) 39°C D) 40°C",
+            "Câu 6: 'My brother _______ football now.' A) play B) plays C) is playing D) played",
+            "Câu 7: Thủ đô của Nhật Bản? A) Bắc Kinh B) Seoul C) Tokyo D) Bangkok",
+            "Câu 8: Giải phóng miền Nam năm nào? A) 1954 B) 1975 C) 1930 D) 1945",
+            "Câu 9: 1 mét bằng bao nhiêu cm? A) 10 B) 100 C) 1000 D) 0,1",
+            "Câu 10: 'I don't have _______ money.' A) some B) any C) many D) a",
+            "Câu 11: Cây nào cần nhiều nước? A) Xương rồng B) Lúa C) Thông D) Phi lao",
+            "Câu 12: Ai là người sáng lập ra đèn điện? A) Tesla B) Edison C) Newton D) Galileo",
+            "Câu 13: Hình tròn có bán kính 2cm, diện tích? A) 6,28cm² B) 12,56cm² C) 3,14cm² D) 25,12cm²",
+            "Câu 14: 'Enjoy' + V-ing nghĩa là gì? A) thích làm gì B) ghét làm gì C) bắt đầu làm gì D) kết thúc làm gì",
+            "Câu 15: Biển Đông giáp với Việt Nam về phía? A) Bắc B) Nam C) Đông D) Tây",
+            "Câu 16: 3/4 + 1/2 = ? A) 4/6 B) 5/4 C) 2/4 D) 1",
+            "Câu 17: Tết Trung Thu là ngày? A) 15/1 âm lịch B) 15/8 âm lịch C) 5/5 âm lịch D) 23/12 âm lịch",
+            "Câu 18: 'This is _______ book I told you about.' A) a B) an C) the D) no article",
+            "Câu 19: Bộ phận nào của tim bơm máu đi nuôi cơ thể? A) Tâm nhĩ trái B) Tâm thất trái C) Tâm nhĩ phải D) Tâm thất phải",
+            "Câu 20: Tác dụng của phân bón đối với cây? A) diệt sâu B) tăng dinh dưỡng C) giữ nước D) làm đất tơi xốp"
+        ]
+    };
+
+    // Đáp án trắc nghiệm cho 5 đề (20 câu mỗi đề)
+    const dapan = {
+        de1: ['C','C','D','B','B','D','C','C','B','B','C','C','C','C','C','A','B','B','D','B'],
+        de2: ['B','A','B','C','A','C','B','B','B','D','B','C','B','D','B','C','D','B','B','C'],
+        de3: ['C','A','B','C','B','C','A','A','B','C','C','A','A','B','C','A','B','A','B','C'],
+        de4: ['A','B','A','C','B','B','B','A','B','B','A','A','C','B','B','C','B','B','B','B'],
+        de5: ['C','B','A','B','B','C','C','B','B','B','B','B','B','A','C','B','B','C','B','B']
+    };
+
+    // Hàm hiển thị câu hỏi trắc nghiệm vào các div
+    function renderFullTN() {
+        for (let d = 1; d <= 5; d++) {
+            let container = document.getElementById(`de${d}-tracnghiem`);
+            if (!container) continue;
+            let html = '';
+            let ques = cauHoi[`de${d}`];
+            for (let i = 0; i < 20; i++) {
+                html += `<div class="question">`;
+                html += `<p><strong>Câu ${i+1}:</strong> ${ques[i]}</p>`;
+                html += `<div class="options" id="de${d}_cau${i+1}">`;
+                let letters = ['A','B','C','D'];
+                for (let opt of letters) {
+                    html += `<label><input type="radio" name="de${d}_q${i+1}" value="${opt}"> ${opt}</label>`;
+                }
+                html += `</div></div>`;
+            }
+            container.innerHTML = html;
+        }
+    }
+    renderFullTN();
+
+    // Hàm chấm điểm trắc nghiệm
+    function scoreTN(maDe) {
+        let correct = dapan[maDe];
+        let score = 0;
+        for (let i = 1; i <= 20; i++) {
+            let radios = document.getElementsByName(`${maDe}_q${i}`);
+            let selected = null;
+            for (let r of radios) if (r.checked) { selected = r.value; break; }
+            if (selected && selected === correct[i-1]) score++;
+        }
+        document.getElementById(`${maDe}-score`).innerText = score + '/20';
+        alert(`Đề ${maDe.toUpperCase()}: Bạn đúng ${score}/20 câu trắc nghiệm.`);
+    }
+
+    // Tab chuyển đổi
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            document.getElementById(this.dataset.tab).classList.add('active');
+        });
+    });
+
+</script>
+</body>
+</html>
