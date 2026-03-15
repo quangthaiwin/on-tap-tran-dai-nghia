@@ -1,550 +1,606 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ôn thi Trần Đại Nghĩa lớp 6 - 5 đề có đồng hồ</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-        }
-        body {
-            background: #f0f7fb;
-            margin: 0;
-            padding: 20px;
-            position: relative;
-        }
-        .container {
-            max-width: 1300px;
-            margin: auto;
-            background: white;
-            border-radius: 30px;
-            box-shadow: 0 20px 40px rgba(0,20,50,0.1);
-            padding: 25px 30px;
-            position: relative;
-        }
-        h1 {
-            color: #0a3b5b;
-            border-left: 8px solid #f4b400;
-            padding-left: 20px;
-        }
-        /* Timer */
-        #timer-container {
-            position: sticky;
-            top: 20px;
-            float: right;
-            background: #0a3b5b;
-            color: white;
-            font-size: 2.2rem;
-            font-weight: 700;
-            padding: 15px 30px;
-            border-radius: 60px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            z-index: 100;
-            margin-bottom: 20px;
-            display: none;
-            letter-spacing: 2px;
-        }
-        #timer-warning {
-            font-size: 1rem;
-            color: #f4b400;
-            margin-left: 15px;
-        }
-        /* Student info form */
-        #student-info {
-            background: #e3f0f9;
-            border-radius: 40px;
-            padding: 40px;
-            text-align: center;
-            margin: 30px 0;
-        }
-        #student-info input {
-            padding: 15px 25px;
-            font-size: 1.2rem;
-            border: 2px solid #b0d3e8;
-            border-radius: 60px;
-            width: 300px;
-            max-width: 90%;
-            margin: 10px;
-        }
-        #btn-start {
-            background: #f4b400;
-            border: none;
-            color: #1d3e53;
-            font-size: 1.5rem;
-            font-weight: bold;
-            padding: 15px 45px;
-            border-radius: 80px;
-            cursor: pointer;
-            box-shadow: 0 6px 0 #b47d00;
-            transition: 0.1s;
-            margin-top: 20px;
-        }
-        #btn-start:active {
-            transform: translateY(6px);
-            box-shadow: none;
-        }
-        #test-content {
-            display: none;
-        }
-        .disabled-state .question,
-        .disabled-state .btn,
-        .disabled-state .fill-input {
-            pointer-events: none;
-            opacity: 0.6;
-        }
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 25px 0 15px;
-        }
-        .tab-btn {
-            background: #e9f0f5;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 40px;
-            font-weight: 600;
-            color: #0a3b5b;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        .tab-btn.active {
-            background: #0a3b5b;
-            color: white;
-            box-shadow: 0 8px 14px rgba(10,59,91,0.3);
-        }
-        .tab-pane {
-            display: none;
-            animation: fade 0.3s;
-        }
-        .tab-pane.active {
-            display: block;
-        }
-        @keyframes fade { from { opacity: 0.3; } to { opacity: 1; } }
-        .test-section {
-            background: #f9fcfd;
-            border-radius: 28px;
-            padding: 20px 25px;
-            margin: 20px 0;
-            border: 1px solid #d9e8f2;
-        }
-        .part-title {
-            background: #d4e7f1;
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-weight: 700;
-            color: #064663;
-            margin: 25px 0 15px;
-            font-size: 1.3rem;
-        }
-        .question {
-            background: white;
-            border-radius: 20px;
-            padding: 18px 22px;
-            margin-bottom: 18px;
-            box-shadow: 0 5px 12px rgba(0,0,0,0.02);
-            border: 1px solid #e2edf5;
-            border-left: 6px solid #b3daf5;
-        }
-        .question p {
-            margin: 0 0 12px 0;
-            font-weight: 600;
-            color: #1b3b4f;
-        }
-        .options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px 30px;
-            align-items: center;
-        }
-        .options label {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-        }
-        input[type="radio"] {
-            accent-color: #0f6b8c;
-            width: 18px;
-            height: 18px;
-        }
-        .fill-input {
-            padding: 10px 15px;
-            border: 2px solid #cbdde9;
-            border-radius: 40px;
-            width: 100%;
-            max-width: 350px;
-            font-size: 1rem;
-        }
-        .btn {
-            background: white;
-            border: 2px solid #0a3b5b;
-            color: #0a3b5b;
-            padding: 10px 24px;
-            border-radius: 60px;
-            font-weight: 700;
-            cursor: pointer;
-            margin: 5px 10px 5px 0;
-        }
-        .btn-primary {
-            background: #0a3b5b;
-            color: white;
-            border: none;
-        }
-        .score-badge {
-            background: #f4b400;
-            color: #1d3e53;
-            padding: 10px 25px;
-            border-radius: 40px;
-            display: inline-block;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-        .answer-key {
-            background: #eaf4e8;
-            border-radius: 16px;
-            padding: 10px 18px;
-            margin-top: 15px;
-            border-left: 5px solid #2e7d32;
-            display: none;
-        }
-        .answer-key.show { display: block; }
-        .model-answer {
-            background: #fef8e7;
-            padding: 14px 20px;
-            border-radius: 18px;
-            border-left: 5px solid #f4b400;
-            margin: 10px 0;
-        }
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #5f7d95;
-        }
-        .hidden { display: none; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luyện Thi Vào Lớp 6 – Trần Đại Nghĩa</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b3e;
+    --gold: #c9973a;
+    --gold-light: #f0c96e;
+    --cream: #fdf8f0;
+    --red: #c0392b;
+    --green: #1a7a4a;
+    --blue-soft: #2563a8;
+    --gray-light: #f4f4f4;
+    --text: #1a1a2e;
+    --border: #ddd6c8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+
+  /* HEADER */
+  .header {
+    background: var(--navy); padding: 18px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+  }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .logo-badge {
+    width: 44px; height: 44px; background: var(--gold);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 900; color: var(--navy);
+  }
+  .header-title h1 { font-family: 'Playfair Display', serif; font-size: 17px; color: white; font-weight: 700; }
+  .header-title p { font-size: 12px; color: #8ba3cc; margin-top: 2px; }
+  .timer-box {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(201,151,58,0.4);
+    border-radius: 10px; padding: 8px 16px;
+  }
+  #timer-display {
+    font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700;
+    color: var(--gold-light); letter-spacing: 2px; min-width: 68px; text-align: center;
+  }
+  #timer-display.warning { color: #ff6b6b; animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.5} }
+
+  /* SCREENS */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* HOME */
+  #home-screen { max-width: 860px; margin: 48px auto; padding: 0 20px; }
+  .home-hero { text-align: center; margin-bottom: 44px; }
+  .home-hero h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: var(--navy); line-height: 1.2; }
+  .home-hero h2 span { color: var(--gold); }
+  .home-hero p { margin-top: 14px; font-size: 16px; color: #555; max-width: 500px; margin-left: auto; margin-right: auto; }
+  .info-bar { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin: 22px 0 38px; }
+  .info-chip {
+    background: var(--navy); color: white; padding: 8px 18px;
+    border-radius: 30px; font-size: 13px; font-weight: 500;
+  }
+  .exam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media(max-width:600px){ .exam-grid { grid-template-columns: 1fr; } }
+  .exam-card {
+    background: white; border: 2px solid var(--border); border-radius: 16px;
+    padding: 24px; cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden;
+  }
+  .exam-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:4px;
+    background: var(--gold); transform: scaleX(0); transition: transform 0.25s; transform-origin: left;
+  }
+  .exam-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  .exam-card:hover::before { transform: scaleX(1); }
+  .exam-card.featured { border-color: var(--gold); }
+  .exam-card.featured::before { transform: scaleX(1); }
+  .exam-num { font-family:'Playfair Display',serif; font-size:48px; font-weight:900; color:#eee; position:absolute; right:18px; top:10px; line-height:1; }
+  .exam-card h3 { font-family:'Playfair Display',serif; font-size:18px; color:var(--navy); margin-bottom:7px; }
+  .exam-card p { font-size:13px; color:#777; line-height:1.5; }
+  .topics { margin-top:14px; display:flex; flex-wrap:wrap; gap:6px; }
+  .topic-tag { background:var(--gray-light); border-radius:6px; padding:3px 10px; font-size:11px; color:#555; font-weight:500; }
+
+  /* EXAM SCREEN */
+  #exam-screen { max-width: 780px; margin: 0 auto; padding: 32px 20px 80px; }
+  .exam-topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+  }
+  .exam-topbar h2 { font-family:'Playfair Display',serif; font-size:22px; color:var(--navy); }
+  .progress-wrap { display:flex; align-items:center; gap:12px; }
+  .progress-bar-bg { width:180px; height:6px; background:#ddd; border-radius:10px; overflow:hidden; }
+  .progress-bar-fill { height:100%; background:var(--gold); border-radius:10px; transition:width 0.3s; }
+  #progress-label { font-size:13px; color:#888; }
+
+  .q-nav { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:22px; }
+  .q-dot {
+    width:30px; height:30px; border-radius:50%; border:2px solid #ccc;
+    background:white; font-size:11px; font-weight:600; color:#aaa;
+    cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.18s;
+  }
+  .q-dot:hover { border-color:var(--gold); color:var(--gold); }
+  .q-dot.answered { background:var(--navy); border-color:var(--navy); color:white; }
+  .q-dot.current { border-color:var(--gold); color:var(--gold); box-shadow:0 0 0 2px rgba(201,151,58,0.25); }
+  .q-dot.answered.current { background:var(--gold); border-color:var(--gold); color:white; }
+
+  .q-card {
+    background:white; border-radius:16px; border:1.5px solid var(--border);
+    padding:28px 32px; margin-bottom:18px; box-shadow:0 2px 10px rgba(0,0,0,0.04);
+  }
+  @media(max-width:500px){ .q-card { padding:20px 18px; } }
+  .q-num-label { font-size:12px; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+  .q-text { font-size:16px; font-weight:500; color:var(--navy); line-height:1.65; margin-bottom:22px; }
+  .options { display:flex; flex-direction:column; gap:10px; }
+  .option-btn {
+    display:flex; align-items:center; gap:14px; padding:14px 18px;
+    border:2px solid #e0dcd4; border-radius:10px; cursor:pointer;
+    background:white; transition:all 0.18s; text-align:left;
+    font-size:15px; color:#333; font-family:'DM Sans',sans-serif; width:100%;
+  }
+  .option-btn:hover:not(:disabled) { border-color:var(--gold); background:#fffbf2; }
+  .option-btn.selected { border-color:var(--blue-soft); background:#eef4ff; color:var(--blue-soft); font-weight:500; }
+  .option-letter {
+    width:30px; height:30px; flex-shrink:0; border-radius:50%;
+    background:#f0ece6; display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:13px; color:#777; transition:all 0.18s;
+  }
+  .option-btn.selected .option-letter { background:var(--blue-soft); color:white; }
+  .q-nav-btns { display:flex; gap:12px; justify-content:space-between; margin-top:6px; }
+  .btn-prev, .btn-next {
+    padding:12px 28px; border-radius:10px; border:none; cursor:pointer;
+    font-family:'DM Sans',sans-serif; font-size:14px; font-weight:600; transition:all 0.2s;
+  }
+  .btn-prev { background:#f0ece6; color:#555; }
+  .btn-prev:hover { background:#e0dcd4; }
+  .btn-next { background:var(--navy); color:white; }
+  .btn-next:hover { background:#1a2d5c; }
+  .answered-count { font-size:13px; color:#888; margin-bottom:14px; text-align:center; }
+  .btn-submit {
+    width:100%; padding:16px; background:var(--gold); color:var(--navy);
+    font-family:'Playfair Display',serif; font-size:17px; font-weight:700;
+    border:none; border-radius:12px; cursor:pointer; transition:all 0.2s; letter-spacing:0.5px;
+  }
+  .btn-submit:hover { background:var(--gold-light); transform:translateY(-1px); box-shadow:0 4px 16px rgba(201,151,58,0.4); }
+
+  /* START OVERLAY */
+  .start-overlay {
+    position:fixed; inset:0; background:rgba(13,27,62,0.93);
+    display:flex; align-items:center; justify-content:center; z-index:200;
+  }
+  .start-box {
+    background:white; border-radius:24px; padding:44px 38px;
+    text-align:center; max-width:420px; width:90%;
+    box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  }
+  .start-icon { font-size:52px; margin-bottom:16px; }
+  .start-box h2 { font-family:'Playfair Display',serif; font-size:24px; color:var(--navy); margin-bottom:10px; }
+  .start-box p { color:#666; font-size:14px; line-height:1.7; margin-bottom:22px; }
+  .rules-list { background:#f9f7f3; border-radius:12px; padding:16px 20px; margin-bottom:26px; text-align:left; }
+  .rules-list li { font-size:13px; color:#555; padding:5px 0; list-style:none; display:flex; gap:8px; }
+  .rules-list li::before { content:'→'; color:var(--gold); font-weight:700; flex-shrink:0; }
+  .btn-start {
+    width:100%; padding:17px; background:var(--navy); color:white;
+    font-family:'Playfair Display',serif; font-size:18px; font-weight:700;
+    border:none; border-radius:12px; cursor:pointer; transition:all 0.2s; letter-spacing:0.5px;
+  }
+  .btn-start:hover { background:var(--gold); color:var(--navy); transform:translateY(-2px); box-shadow:0 6px 20px rgba(201,151,58,0.4); }
+
+  /* RESULT */
+  #result-screen { max-width:700px; margin:0 auto; padding:40px 20px 80px; }
+  .result-hero {
+    text-align:center; background:var(--navy); border-radius:20px;
+    padding:40px 32px; color:white; margin-bottom:28px;
+    position:relative; overflow:hidden;
+  }
+  .result-hero::before {
+    content:''; position:absolute; top:-60px; right:-60px;
+    width:220px; height:220px; background:rgba(201,151,58,0.08); border-radius:50%;
+  }
+  .result-exam-name { font-size:12px; color:#8ba3cc; letter-spacing:1px; text-transform:uppercase; margin-bottom:16px; }
+  .score-circle {
+    width:130px; height:130px; background:var(--gold); border-radius:50%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    margin:0 auto 20px; box-shadow:0 0 0 12px rgba(201,151,58,0.15);
+  }
+  .score-number { font-family:'Playfair Display',serif; font-size:44px; font-weight:900; color:var(--navy); line-height:1; }
+  .score-denom { font-size:13px; color:var(--navy); font-weight:600; }
+  .result-hero h2 { font-family:'Playfair Display',serif; font-size:24px; margin-bottom:8px; }
+  .result-hero p { color:#aab3cc; font-size:14px; }
+  .score-pct { font-family:'Playfair Display',serif; font-size:18px; color:var(--gold-light); margin-top:14px; }
+
+  .result-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:26px; }
+  @media(max-width:480px){ .result-stats { grid-template-columns:1fr 1fr; } }
+  .stat-box { background:white; border-radius:12px; padding:18px; text-align:center; border:1.5px solid var(--border); }
+  .stat-val { font-family:'Playfair Display',serif; font-size:30px; font-weight:700; }
+  .stat-val.c { color:var(--green); }
+  .stat-val.w { color:var(--red); }
+  .stat-val.s { color:#aaa; }
+  .stat-label { font-size:12px; color:#888; margin-top:4px; }
+
+  .answer-review { margin-bottom:30px; }
+  .answer-review h3 { font-family:'Playfair Display',serif; font-size:20px; color:var(--navy); margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid var(--border); }
+  .review-item {
+    background:white; border-radius:10px; padding:16px 20px;
+    margin-bottom:10px; border:1.5px solid var(--border); border-left-width:4px;
+  }
+  .review-item.ca { border-left-color:var(--green); }
+  .review-item.wa { border-left-color:var(--red); }
+  .review-item.sa { border-left-color:#ccc; }
+  .review-q { font-size:14px; color:#333; margin-bottom:9px; line-height:1.5; }
+  .review-badges { display:flex; gap:8px; flex-wrap:wrap; }
+  .badge { padding:3px 10px; border-radius:20px; font-size:12px; font-weight:600; }
+  .bc { background:#d4edda; color:var(--green); }
+  .bw { background:#fde8e8; color:var(--red); }
+  .bs { background:#f0f0f0; color:#888; }
+  .ba { background:#eef4ff; color:var(--blue-soft); }
+
+  .result-actions { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-home, .btn-retry {
+    flex:1; min-width:130px; padding:15px; border-radius:12px; border:none;
+    cursor:pointer; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600; transition:all 0.2s;
+  }
+  .btn-home { background:#f0ece6; color:var(--navy); }
+  .btn-home:hover { background:#e0dcd4; }
+  .btn-retry { background:var(--gold); color:var(--navy); }
+  .btn-retry:hover { background:var(--gold-light); box-shadow:0 4px 14px rgba(201,151,58,0.4); }
+</style>
 </head>
 <body>
-<div class="container">
-    <h1>📘 5 Đề ôn Trần Đại Nghĩa 2026 (có timer 90 phút)</h1>
 
-    <!-- Form thông tin học sinh -->
-    <div id="student-info">
-        <h2>📝 Thông tin học sinh</h2>
-        <input type="text" id="student-name" placeholder="Họ và tên" value="Nguyễn Văn A">
-        <br>
-        <input type="number" id="student-age" placeholder="Tuổi" value="11" min="5" max="15">
-        <br>
-        <button id="btn-start">▶ BẮT ĐẦU LÀM BÀI</button>
+<div class="header">
+  <div class="header-left">
+    <div class="logo-badge">TĐN</div>
+    <div class="header-title">
+      <h1>Luyện Thi Trắc Nghiệm</h1>
+      <p>Khảo sát vào Lớp 6 – Trần Đại Nghĩa</p>
     </div>
+  </div>
+  <div class="timer-box">
+    <span>⏱</span>
+    <div id="timer-display">30:00</div>
+  </div>
+</div>
 
-    <!-- Đồng hồ đếm ngược -->
-    <div id="timer-container">
-        <span id="timer">90:00</span>
-        <span id="timer-warning"></span>
+<!-- HOME -->
+<div id="home-screen" class="screen active">
+  <div style="max-width:860px;margin:48px auto;padding:0 20px;">
+    <div class="home-hero">
+      <h2>5 Đề Luyện Tập<br><span>Trắc Nghiệm Tiếng Anh</span></h2>
+      <p>Mô phỏng cấu trúc thi thật: 20 câu tiếng Anh về KHTN · KHXH · Thường thức đời sống</p>
+      <div class="info-bar">
+        <div class="info-chip">⏱ 30 phút / đề</div>
+        <div class="info-chip">📝 20 câu / đề</div>
+        <div class="info-chip">🏆 40 điểm tối đa</div>
+        <div class="info-chip">✅ Chấm điểm ngay</div>
+      </div>
     </div>
+    <div class="exam-grid" id="exam-grid"></div>
+  </div>
+</div>
 
-    <!-- Toàn bộ nội dung thi (ẩn ban đầu) -->
-    <div id="test-content">
-        <div class="tabs" id="tabHeaders">
-            <button class="tab-btn active" data-tab="tab1">📋 Đề 1</button>
-            <button class="tab-btn" data-tab="tab2">📋 Đề 2</button>
-            <button class="tab-btn" data-tab="tab3">📋 Đề 3</button>
-            <button class="tab-btn" data-tab="tab4">📋 Đề 4</button>
-            <button class="tab-btn" data-tab="tab5">📋 Đề 5</button>
-        </div>
-
-        <!-- Các tab đề (giữ nguyên nội dung cũ, được render bởi JS) -->
-        <div id="tab1" class="tab-pane active">
-            <div class="test-section">
-                <h2>ĐỀ SỐ 1</h2>
-                <div class="part-title">🔹 PHẦN 1: TRẮC NGHIỆM (20 câu)</div>
-                <div id="de1-tracnghiem"></div>
-                <button class="btn btn-primary" onclick="scoreTN('de1')">✅ Chấm điểm trắc nghiệm Đề 1</button>
-                <span id="de1-score" class="score-badge">0/20</span>
-                <hr>
-                <div class="part-title">🔸 TỰ LUẬN (đáp án mẫu)</div>
-                <div class="model-answer">📌 <strong>Đáp án tự luận đề 1:</strong> Listening (Science, Geography, Monday, interesting, kind) ; Reading (by plane, cool, Valley of Love/Xuan Huong Lake, artichoke tea/strawberry jam, fresh air) ; Toán (12500, 360)...</div>
-            </div>
-        </div>
-        <div id="tab2" class="tab-pane">
-            <div class="test-section">
-                <h2>ĐỀ SỐ 2</h2>
-                <div id="de2-tracnghiem"></div>
-                <button class="btn btn-primary" onclick="scoreTN('de2')">✅ Chấm điểm Đề 2</button>
-                <span id="de2-score" class="score-badge">0/20</span>
-            </div>
-        </div>
-        <div id="tab3" class="tab-pane">
-            <div class="test-section">
-                <h2>ĐỀ SỐ 3</h2>
-                <div id="de3-tracnghiem"></div>
-                <button class="btn btn-primary" onclick="scoreTN('de3')">✅ Chấm điểm Đề 3</button>
-                <span id="de3-score" class="score-badge">0/20</span>
-            </div>
-        </div>
-        <div id="tab4" class="tab-pane">
-            <div class="test-section">
-                <h2>ĐỀ SỐ 4</h2>
-                <div id="de4-tracnghiem"></div>
-                <button class="btn btn-primary" onclick="scoreTN('de4')">✅ Chấm điểm Đề 4</button>
-                <span id="de4-score" class="score-badge">0/20</span>
-            </div>
-        </div>
-        <div id="tab5" class="tab-pane">
-            <div class="test-section">
-                <h2>ĐỀ SỐ 5</h2>
-                <div id="de5-tracnghiem"></div>
-                <button class="btn btn-primary" onclick="scoreTN('de5')">✅ Chấm điểm Đề 5</button>
-                <span id="de5-score" class="score-badge">0/20</span>
-            </div>
-        </div>
+<!-- EXAM -->
+<div id="exam-screen" class="screen">
+  <div class="start-overlay" id="start-overlay">
+    <div class="start-box">
+      <div class="start-icon">📋</div>
+      <h2 id="overlay-title">Đề Số 1</h2>
+      <p id="overlay-desc">Bạn đã sẵn sàng? Đồng hồ đếm ngược ngay khi bấm Bắt Đầu.</p>
+      <ul class="rules-list">
+        <li>20 câu trắc nghiệm – mỗi câu đúng được 2 điểm</li>
+        <li>Thời gian làm bài: 30 phút</li>
+        <li>Có thể quay lại sửa câu trả lời bất kỳ lúc nào</li>
+        <li>Xem đáp án chi tiết ngay sau khi nộp bài</li>
+      </ul>
+      <button class="btn-start" onclick="startExam()">▶ Bắt Đầu Làm Bài</button>
     </div>
+  </div>
 
-    <footer>✅ Nhập thông tin và bấm BẮT ĐẦU. Đồng hồ 90 phút sẽ chạy.</footer>
+  <div style="max-width:780px;margin:0 auto;padding:32px 20px 80px;">
+    <div class="exam-topbar">
+      <h2 id="exam-title">Đề Số 1</h2>
+      <div class="progress-wrap">
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+        <span id="progress-label">0 / 20</span>
+      </div>
+    </div>
+    <div class="q-nav" id="q-nav"></div>
+    <div id="question-area"></div>
+    <div class="q-nav-btns">
+      <button class="btn-prev" onclick="prevQ()">← Câu Trước</button>
+      <button class="btn-next" onclick="nextQ()">Câu Tiếp →</button>
+    </div>
+    <div class="answered-count" id="answered-count" style="margin-top:20px;"></div>
+    <button class="btn-submit" onclick="submitExam()">🏁 Nộp Bài &amp; Xem Kết Quả</button>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="result-screen" class="screen">
+  <div style="max-width:700px;margin:0 auto;padding:40px 20px 80px;">
+    <div class="result-hero">
+      <div class="result-exam-name" id="result-exam-name">ĐỀ SỐ 1</div>
+      <div class="score-circle">
+        <div class="score-number" id="score-num">0</div>
+        <div class="score-denom">/ 40 đ</div>
+      </div>
+      <h2 id="result-verdict"></h2>
+      <p id="result-msg"></p>
+      <div class="score-pct" id="score-pct"></div>
+    </div>
+    <div class="result-stats">
+      <div class="stat-box"><div class="stat-val c" id="st-c">0</div><div class="stat-label">✅ Câu Đúng</div></div>
+      <div class="stat-box"><div class="stat-val w" id="st-w">0</div><div class="stat-label">❌ Câu Sai</div></div>
+      <div class="stat-box"><div class="stat-val s" id="st-s">0</div><div class="stat-label">⬜ Bỏ Qua</div></div>
+    </div>
+    <div class="answer-review">
+      <h3>📖 Xem Lại Đáp Án Chi Tiết</h3>
+      <div id="review-list"></div>
+    </div>
+    <div class="result-actions">
+      <button class="btn-home" onclick="goHome()">🏠 Về Trang Chủ</button>
+      <button class="btn-retry" onclick="retryExam()">🔄 Làm Lại Đề Này</button>
+    </div>
+  </div>
 </div>
 
 <script>
-    (function() {
-        // ---------- DỮ LIỆU ĐỀ THI (giữ nguyên từ phiên bản trước) ----------
-        const cauHoi = {
-            de1: [
-                "Quá trình nào sau đây là sự biến đổi hóa học? A) Hòa tan đường B) Xé giấy C) Đốt cháy que diêm D) Nước đá tan",
-                "Hình chữ nhật có chiều dài gấp đôi chiều rộng. Tăng chiều rộng 3m, diện tích tăng 36m². Chiều dài ban đầu? A)12m B)18m C)24m D)30m",
-                "Ai lãnh đạo khởi nghĩa Lam Sơn? A) Ngô Quyền B) Lý Thường Kiệt C) Trần Hưng Đạo D) Lê Lợi",
-                "Sông dài nhất thế giới? A) Amazon B) Nile C) Trường Giang D) Mississippi",
-                "Hành động nào thể hiện quan tâm hàng xóm? A) Mượn đồ khi vắng nhà B) Trông nhà giúp họ C) Bật nhạc to D) Vứt rác sang nhà",
-                "Vật nào là nguồn sáng? A) Mặt Trăng B) Cái bàn C) Quyển sách D) Mặt Trời",
-                "Vitamin nào chống bệnh scorbut? A) A B) B C) C D) D",
-                "Tìm số tiếp theo: 2,6,12,20,30,? A)36 B)40 C)42 D)48",
-                "Phát âm khác: home, come, go, no (gạch chân o) A)home B)come C)go D)no",
-                "'What does your mother do?' – 'She is a _______. Works in hospital.' A)teacher B)nurse C)worker D)farmer",
-                "Tết Nguyên Đán còn gọi là? A) Trung Thu B) Đoan Ngọ C) Cổ truyền D) Hàn Thực",
-                "Động vật ăn thịt? A) Trâu B) Bò C) Hổ D) Thỏ",
-                "1/2 + 2/3 = ? A)3/5 B)3/6 C)7/6 D)5/6",
-                "Thiết bị kết nối Internet? A) Bàn phím B) Chuột C) Modem D) Loa",
-                "Nhạc cụ bộ dây? A) Trống B) Kèn C) Đàn bầu D) Sáo",
-                "Tìm lỗi sai: 'She go to school by bus every day.' A) go B) to school C) by D) bus",
-                "Để tiết kiệm điện nên? A) Bật đèn cả ngày B) Tắt thiết bị khi không dùng C) Điều hòa thấp nhất D) Mở tủ lạnh thường xuyên",
-                "Ngày và đêm luân phiên do? A) Mặt trời mọc đông B) Trái đất tự quay C) Mặt trăng quay D) Trái đất quay quanh mặt trời",
-                "Bộ phận hút nước của cây? A) Thân B) Lá C) Hoa D) Rễ",
-                "'Yesterday, I _______ a film.' A) see B) saw C) seeing D) have seen"
-            ],
-            de2: [
-                "Dãy núi dài nhất Việt Nam? A) Hoàng Liên Sơn B) Trường Sơn C) Tam Đảo D) Bạch Mã",
-                "Từ viết đúng chính tả? A) Xa lánh B) Sa lánh C) Xa lán D) Sa lạng",
-                "25% của 200 là? A)25 B)50 C)75 D)100",
-                "Which one is different? A) Apple B) Banana C) Carrot D) Orange",
-                "Tác giả 'Bình Ngô đại cáo'? A) Nguyễn Trãi B) Lý Thường Kiệt C) Trần Quốc Tuấn D) Lê Lợi",
-                "Hành tinh gần Mặt Trời nhất? A) Sao Kim B) Sao Hỏa C) Sao Thủy D) Trái Đất",
-                "Điền số: 1,4,9,16,25,? A)30 B)36 C)32 D)35",
-                "'My father is a _______ . He writes for a newspaper.' A) doctor B) journalist C) teacher D) driver",
-                "Vua dời đô ra Thăng Long? A) Lý Thánh Tông B) Lý Thái Tổ C) Trần Thái Tông D) Lê Thái Tổ",
-                "Nước có diện tích lớn nhất? A) Canada B) Trung Quốc C) Mỹ D) Nga",
-                "0,5 × 0,4 = ? A)0,02 B)0,2 C)2,0 D)0,002",
-                "Con vật đẻ trứng? A) Chó B) Mèo C) Gà D) Bò",
-                "Tìm lỗi sai: 'The boys is playing football.' A) The boys B) is C) playing D) in the yard",
-                "Màu xanh lá cây do bộ phận? A) Rễ B) Thân C) Hoa D) Diệp lục",
-                "Ngày Quốc tế Thiếu nhi? A) 1/5 B) 1/6 C) 2/9 D) 20/11",
-                "Phân số lớn nhất: 3/4, 5/6, 7/8 ? A)3/4 B)5/6 C)7/8 D) bằng nhau",
-                "Thành phố 'Hòn ngọc Viễn Đông'? A) Hà Nội B) Đà Nẵng C) Huế D) Sài Gòn",
-                "'I'm very _______ . I want something to eat.' A) thirsty B) hungry C) tired D) happy",
-                "Năm 2024 là con gì? A) Mèo B) Rồng C) Rắn D) Ngựa",
-                "Tác dụng đeo khẩu trang? A) Làm đẹp B) Chống nắng C) Ngăn bụi và vi khuẩn D) Giữ ấm"
-            ],
-            de3: [
-                "Câu 1 đề 3 (mẫu): Nước chiếm bao nhiêu % bề mặt Trái Đất? A) 50% B) 60% C) 71% D) 80%",
-                "Câu 2 đề 3: Ai là người Việt Nam đầu tiên bay vào vũ trụ? A) Phạm Tuân B) Nguyễn Tuân C) Lê Văn D) Hoàng Minh",
-                "Câu 3: Phép tính 12,5 × 0,8 = ? A) 1 B) 10 C) 100 D) 1000",
-                "Câu 4: Từ 'mênh mông' thuộc từ loại gì? A) Danh từ B) Động từ C) Tính từ D) Đại từ",
-                "Câu 5: Vườn quốc gia nào nổi tiếng ở Quảng Bình? A) Cúc Phương B) Phong Nha C) Ba Vì D) Yok Đôn",
-                "Câu 6: She _______ to music now. A) listen B) listens C) is listening D) listened",
-                "Câu 7: Tác giả 'Dế Mèn phiêu lưu ký'? A) Tô Hoài B) Nguyễn Nhật Ánh C) Võ Quảng D) Trần Đăng Khoa",
-                "Câu 8: Gấu Bắc Cực có màu lông gì? A) Trắng B) Đen C) Nâu D) Xám",
-                "Câu 9: 1 giờ = ... giây? A) 360 B) 3600 C) 60 D) 86400",
-                "Câu 10: 'I _______ a student.' A) is B) are C) am D) be",
-                "Câu 11: Cây nào thuộc loại thân gỗ? A) Lúa B) Ngô C) Xoài D) Khoai lang",
-                "Câu 12: Thành phần chính của không khí? A) O2 & N2 B) CO2 & O2 C) N2 & H2 D) O2 & H2",
-                "Câu 13: Tìm x: x + 3,5 = 7,2. A) 3,7 B) 4,7 C) 10,7 D) 3,2",
-                "Câu 14: Đồng bằng lớn nhất Việt Nam? A) Bắc Bộ B) Nam Bộ C) Duyên hải miền Trung D) Tây Nguyên",
-                "Câu 15: 'Happy birthday' dùng khi nào? A) Giáng sinh B) Tết C) Sinh nhật D) Khai giảng",
-                "Câu 16: Nước nào có kim tự tháp? A) Ai Cập B) Hy Lạp C) La Mã D) Ấn Độ",
-                "Câu 17: Bộ phận nào giúp cá thở? A) Vây B) Mang C) Vảy D) Đuôi",
-                "Câu 18: Ròng rọc là ứng dụng của? A) Cơ học B) Điện học C) Quang học D) Hóa học",
-                "Câu 19: Ngày Nhà giáo Việt Nam? A) 20/10 B) 20/11 C) 22/12 D) 8/3",
-                "Câu 20: 'We go to school _______ Monday.' A) in B) at C) on D) by"
-            ],
-            de4: [
-                "Câu 1 đề 4: Đỉnh núi cao nhất Việt Nam? A) Phanxipăng B) Tây Côn Lĩnh C) Bạch Mã D) Ngọc Linh",
-                "Câu 2: 3/5 viết dưới dạng số thập phân? A) 0,3 B) 0,6 C) 0,35 D) 0,5",
-                "Câu 3: Ai là tác giả 'Hạt gạo làng ta'? A) Trần Đăng Khoa B) Xuân Quỳnh C) Tố Hữu D) Huy Cận",
-                "Câu 4: Dòng sông nào chảy qua TP.HCM? A) Sông Hồng B) Sông Đồng Nai C) Sông Sài Gòn D) Sông Cửu Long",
-                "Câu 5: Từ đồng nghĩa với 'bao la'? A) chật hẹp B) mênh mông C) nhỏ bé D) xa xôi",
-                "Câu 6: Yesterday, they _______ to the museum. A) go B) went C) goes D) going",
-                "Câu 7: Thiên nhiên miền Bắc mùa đông có đặc điểm? A) nóng ẩm B) lạnh khô C) mưa nhiều D) mát mẻ",
-                "Câu 8: Tìm hai số biết tổng 100, hiệu 20. A) 60 và 40 B) 70 và 30 C) 50 và 50 D) 80 và 20",
-                "Câu 9: 'Màu vàng' tiếng Anh là? A) blue B) yellow C) green D) red",
-                "Câu 10: Loại quả nào giàu vitamin C? A) Chuối B) Cam C) Táo D) Nho",
-                "Câu 11: Ai viết 'Bác Hồ - Người cho em tất cả'? A) Phạm Tuyên B) Văn Cao C) Trịnh Công Sơn D) Hoàng Vân",
-                "Câu 12: 2 giờ 30 phút = ... phút? A) 150 B) 120 C) 90 D) 180",
-                "Câu 13: Nguồn nước ngọt chính trên Trái Đất? A) Sông hồ B) Nước ngầm C) Băng D) Biển",
-                "Câu 14: 'She is _______ than her sister.' A) tall B) taller C) tallest D) the tallest",
-                "Câu 15: Vua Quang Trung đại phá quân Thanh năm nào? A) 1788 B) 1789 C) 1790 D) 1802",
-                "Câu 16: Cơ quan nào bài tiết mồ hôi? A) Phổi B) Thận C) Da D) Gan",
-                "Câu 17: 10% của 500 là? A) 5 B) 50 C) 500 D) 0,5",
-                "Câu 18: Từ trái nghĩa với 'vui vẻ'? A) hạnh phúc B) buồn bã C) phấn khởi D) hân hoan",
-                "Câu 19: Động vật nào có nguy cơ tuyệt chủng? A) Gà B) Voi C) Bò D) Lợn",
-                "Câu 20: 'How _______ books are there?' A) much B) many C) old D) often"
-            ],
-            de5: [
-                "Câu 1 đề5: Nhà bác học Niu-tơn phát minh ra? A) điện thoại B) bóng đèn C) định luật vạn vật hấp dẫn D) máy tính",
-                "Câu 2: 8,5 × 10 = ? A) 0,85 B) 85 C) 850 D) 8500",
-                "Câu 3: Truyện 'Thánh Gióng' thể hiện? A) lòng yêu nước B) tình bạn C) sự thông minh D) lòng biết ơn",
-                "Câu 4: 'Chạy' thuộc từ loại? A) Danh từ B) Động từ C) Tính từ D) Đại từ",
-                "Câu 5: Nhiệt độ cơ thể người bình thường? A) 35°C B) 37°C C) 39°C D) 40°C",
-                "Câu 6: 'My brother _______ football now.' A) play B) plays C) is playing D) played",
-                "Câu 7: Thủ đô của Nhật Bản? A) Bắc Kinh B) Seoul C) Tokyo D) Bangkok",
-                "Câu 8: Giải phóng miền Nam năm nào? A) 1954 B) 1975 C) 1930 D) 1945",
-                "Câu 9: 1 mét bằng bao nhiêu cm? A) 10 B) 100 C) 1000 D) 0,1",
-                "Câu 10: 'I don't have _______ money.' A) some B) any C) many D) a",
-                "Câu 11: Cây nào cần nhiều nước? A) Xương rồng B) Lúa C) Thông D) Phi lao",
-                "Câu 12: Ai là người sáng lập ra đèn điện? A) Tesla B) Edison C) Newton D) Galileo",
-                "Câu 13: Hình tròn có bán kính 2cm, diện tích? A) 6,28cm² B) 12,56cm² C) 3,14cm² D) 25,12cm²",
-                "Câu 14: 'Enjoy' + V-ing nghĩa là gì? A) thích làm gì B) ghét làm gì C) bắt đầu làm gì D) kết thúc làm gì",
-                "Câu 15: Biển Đông giáp với Việt Nam về phía? A) Bắc B) Nam C) Đông D) Tây",
-                "Câu 16: 3/4 + 1/2 = ? A) 4/6 B) 5/4 C) 2/4 D) 1",
-                "Câu 17: Tết Trung Thu là ngày? A) 15/1 âm lịch B) 15/8 âm lịch C) 5/5 âm lịch D) 23/12 âm lịch",
-                "Câu 18: 'This is _______ book I told you about.' A) a B) an C) the D) no article",
-                "Câu 19: Bộ phận nào của tim bơm máu đi nuôi cơ thể? A) Tâm nhĩ trái B) Tâm thất trái C) Tâm nhĩ phải D) Tâm thất phải",
-                "Câu 20: Tác dụng của phân bón đối với cây? A) diệt sâu B) tăng dinh dưỡng C) giữ nước D) làm đất tơi xốp"
-            ]
-        };
+const EXAMS = [
+{
+  id:1, title:"Đề Số 1", subtitle:"Khoa học Tự nhiên & Đời sống",
+  topics:["Animals & Biology","Solar System","Geography","Food & Nutrition"],
+  questions:[
+    {q:"Which planet in the Solar System is known as the 'Red Planet'?",opts:["Venus","Mars","Jupiter","Saturn"],ans:1},
+    {q:"What is the process by which plants make their own food using sunlight?",opts:["Respiration","Fermentation","Photosynthesis","Digestion"],ans:2},
+    {q:"How many bones does an adult human body have?",opts:["180","206","250","320"],ans:1},
+    {q:"Which gas do plants absorb from the air during photosynthesis?",opts:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"],ans:2},
+    {q:"What is the largest organ in the human body?",opts:["Liver","Brain","Heart","Skin"],ans:3},
+    {q:"Which of the following animals is a mammal?",opts:["Crocodile","Eagle","Dolphin","Frog"],ans:2},
+    {q:"What is the capital city of Japan?",opts:["Osaka","Kyoto","Tokyo","Nagoya"],ans:2},
+    {q:"Which vitamin does sunlight help our body produce?",opts:["Vitamin A","Vitamin B","Vitamin C","Vitamin D"],ans:3},
+    {q:"What is the name of the force that pulls objects toward the Earth?",opts:["Friction","Magnetism","Gravity","Tension"],ans:2},
+    {q:"Which country does the Nile River mainly flow through?",opts:["Brazil","China","Egypt","India"],ans:2},
+    {q:"What do we call animals that eat only plants?",opts:["Carnivores","Herbivores","Omnivores","Predators"],ans:1},
+    {q:"How many colors are in a rainbow?",opts:["5","6","7","8"],ans:2},
+    {q:"Which ocean is the largest on Earth?",opts:["Atlantic Ocean","Indian Ocean","Arctic Ocean","Pacific Ocean"],ans:3},
+    {q:"What is the boiling point of water at sea level?",opts:["90°C","95°C","100°C","105°C"],ans:2},
+    {q:"Which part of the plant absorbs water and nutrients from the soil?",opts:["Leaves","Stem","Roots","Flowers"],ans:2},
+    {q:"What is the most spoken language by number of native speakers?",opts:["English","Spanish","Mandarin Chinese","Hindi"],ans:2},
+    {q:"Which food is the richest source of protein among these options?",opts:["Rice","Eggs","Apple","Bread"],ans:1},
+    {q:"What is the study of stars and planets called?",opts:["Geology","Biology","Astronomy","Chemistry"],ans:2},
+    {q:"Which gas makes up most of Earth's atmosphere?",opts:["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"],ans:2},
+    {q:"What is the hardest natural substance on Earth?",opts:["Gold","Iron","Diamond","Quartz"],ans:2}
+  ]
+},
+{
+  id:2, title:"Đề Số 2", subtitle:"Khoa học Xã hội & Văn hóa Thế giới",
+  topics:["World History","World Culture","Geography","Famous Inventions"],
+  questions:[
+    {q:"Who invented the telephone?",opts:["Thomas Edison","Alexander Graham Bell","Nikola Tesla","Benjamin Franklin"],ans:1},
+    {q:"Which is the smallest country in the world by area?",opts:["Monaco","San Marino","Vatican City","Liechtenstein"],ans:2},
+    {q:"In which year did World War II end?",opts:["1943","1944","1945","1946"],ans:2},
+    {q:"The Great Wall of China was mainly built to protect against invasions from the:",opts:["South","East","West","North"],ans:3},
+    {q:"Which city hosted the 2020 Summer Olympic Games (held in 2021)?",opts:["Beijing","Paris","Tokyo","Los Angeles"],ans:2},
+    {q:"Mount Everest is located in which mountain range?",opts:["Alps","Andes","Himalayas","Rockies"],ans:2},
+    {q:"Who was the first person to walk on the Moon?",opts:["Buzz Aldrin","Neil Armstrong","Yuri Gagarin","John Glenn"],ans:1},
+    {q:"Which ancient wonder of the world still stands today?",opts:["Colossus of Rhodes","Lighthouse of Alexandria","Great Pyramid of Giza","Hanging Gardens of Babylon"],ans:2},
+    {q:"What is the currency of the United Kingdom?",opts:["Euro","Dollar","Pound Sterling","Franc"],ans:2},
+    {q:"Which country is credited with inventing paper?",opts:["Egypt","Greece","India","China"],ans:3},
+    {q:"The Statue of Liberty was a gift to the USA from which country?",opts:["United Kingdom","Germany","France","Italy"],ans:2},
+    {q:"Which continent has the most countries?",opts:["Asia","Europe","Africa","South America"],ans:2},
+    {q:"What is the official language of Brazil?",opts:["Spanish","Portuguese","French","English"],ans:1},
+    {q:"In which country is the Amazon Rainforest mainly located?",opts:["Colombia","Peru","Venezuela","Brazil"],ans:3},
+    {q:"The Eiffel Tower is located in which city?",opts:["Rome","Berlin","Paris","Madrid"],ans:2},
+    {q:"Who wrote the play 'Romeo and Juliet'?",opts:["Charles Dickens","William Shakespeare","Mark Twain","Jane Austen"],ans:1},
+    {q:"How many continents are there on Earth?",opts:["5","6","7","8"],ans:2},
+    {q:"Which country has the largest population in the world as of 2024?",opts:["China","United States","India","Indonesia"],ans:2},
+    {q:"The ancient Olympic Games were first held in which country?",opts:["Rome","Egypt","Greece","Persia"],ans:2},
+    {q:"Who painted the Mona Lisa?",opts:["Michelangelo","Raphael","Leonardo da Vinci","Picasso"],ans:2}
+  ]
+},
+{
+  id:3, title:"Đề Số 3", subtitle:"Toán học & Tư duy Logic (Tiếng Anh)",
+  topics:["Math Logic","Sequences","Word Problems","Geometry"],
+  questions:[
+    {q:"If a train travels at 60 km/h, how long does it take to travel 180 km?",opts:["2 hours","3 hours","4 hours","2.5 hours"],ans:1},
+    {q:"What is the next number in this sequence? 2, 4, 8, 16, __",opts:["24","30","32","36"],ans:2},
+    {q:"A rectangle has a length of 12 cm and a width of 5 cm. What is its area?",opts:["34 cm²","60 cm²","17 cm²","70 cm²"],ans:1},
+    {q:"If today is Wednesday, what day will it be 10 days from now?",opts:["Thursday","Friday","Saturday","Sunday"],ans:1},
+    {q:"Which of these fractions is equal to 0.75?",opts:["1/2","2/3","3/4","4/5"],ans:2},
+    {q:"A shop sells apples at 5,000 VND each. How much do 12 apples cost?",opts:["50,000 VND","55,000 VND","60,000 VND","65,000 VND"],ans:2},
+    {q:"What is the perimeter of a square with side length 9 cm?",opts:["27 cm","36 cm","45 cm","81 cm"],ans:1},
+    {q:"If 5 pencils cost 15,000 VND, how much do 8 pencils cost?",opts:["20,000 VND","24,000 VND","25,000 VND","28,000 VND"],ans:1},
+    {q:"A water tank holds 120 liters when full. It is currently 3/4 full. How many liters are in it?",opts:["80 liters","90 liters","95 liters","100 liters"],ans:1},
+    {q:"A class has 35 students. 60% are girls. How many boys are there?",opts:["12","14","15","21"],ans:1},
+    {q:"Which number is divisible by both 3 and 5?",opts:["20","25","30","35"],ans:2},
+    {q:"If a book has 240 pages and Lan reads 20 pages per day, how many days does she need to finish it?",opts:["10","12","14","15"],ans:1},
+    {q:"How many minutes are there in 2 hours and 45 minutes?",opts:["145","155","160","165"],ans:3},
+    {q:"What is the greatest common factor (GCF) of 24 and 36?",opts:["4","6","8","12"],ans:3},
+    {q:"The sum of three consecutive odd numbers is 51. What is the smallest number?",opts:["13","15","17","19"],ans:1},
+    {q:"3 cats can catch 3 mice in 3 minutes. How many cats are needed to catch 100 mice in 100 minutes?",opts:["1","3","10","100"],ans:1},
+    {q:"A room is 6 m long and 4 m wide. How many square tiles of 50 cm × 50 cm are needed to tile the floor?",opts:["96","192","240","384"],ans:1},
+    {q:"What is the next number? 1, 1, 2, 3, 5, 8, __",opts:["10","11","13","15"],ans:2},
+    {q:"A container holds 5 liters. If you fill it 7 times, how many milliliters of water do you have in total?",opts:["3,500 mL","7,000 mL","35,000 mL","350,000 mL"],ans:2},
+    {q:"A shop offers a 25% discount on a 200,000 VND item. What is the sale price?",opts:["125,000 VND","150,000 VND","160,000 VND","175,000 VND"],ans:1}
+  ]
+},
+{
+  id:4, title:"Đề Số 4", subtitle:"Môi trường, Công nghệ & Việt Nam",
+  topics:["Environment","Technology","Health","Vietnam Knowledge"],
+  questions:[
+    {q:"What is the main cause of global warming?",opts:["Deforestation only","Increase in greenhouse gases","Ocean pollution","Increased sunlight"],ans:1},
+    {q:"Which of the following is a renewable source of energy?",opts:["Coal","Natural gas","Solar power","Oil"],ans:2},
+    {q:"Approximately how much of the Earth's surface is covered by water?",opts:["50%","61%","71%","81%"],ans:2},
+    {q:"What is the name of Vietnam's national currency?",opts:["Baht","Dong","Peso","Ringgit"],ans:1},
+    {q:"Which Vietnamese dish is made from rice noodles with broth and toppings?",opts:["Bánh mì","Cơm tấm","Phở","Xôi"],ans:2},
+    {q:"How many provinces and cities does Vietnam have?",opts:["58","62","63","65"],ans:2},
+    {q:"Which sea borders Vietnam to the east?",opts:["Pacific Ocean","Indian Ocean","South China Sea","East China Sea"],ans:2},
+    {q:"What technology does a smartphone use to connect to the internet wirelessly?",opts:["Bluetooth only","Wi-Fi and Mobile Data","Infrared","Satellite only"],ans:1},
+    {q:"What does 'AI' stand for in modern technology?",opts:["Advanced Internet","Artificial Intelligence","Automated Input","Assisted Interface"],ans:1},
+    {q:"Which part of the human body pumps blood throughout the body?",opts:["Lungs","Liver","Kidneys","Heart"],ans:3},
+    {q:"Which of the following is NOT a greenhouse gas?",opts:["Carbon dioxide","Methane","Oxygen","Water vapor"],ans:2},
+    {q:"The symbol for water in science is:",opts:["HO","H2O","H3O","OH"],ans:1},
+    {q:"What does a barometer measure?",opts:["Temperature","Wind speed","Air pressure","Humidity"],ans:2},
+    {q:"Which Vietnamese city is known for its ancient trading port (UNESCO heritage)?",opts:["Hue","Ha Noi","Hoi An","Da Nang"],ans:2},
+    {q:"What does recycling help to reduce?",opts:["Air temperature","Waste and resource consumption","Rainfall","Sunlight intensity"],ans:1},
+    {q:"Which action best helps protect the environment?",opts:["Leaving the tap running","Using single-use plastic bags","Turning off lights when not needed","Throwing waste into rivers"],ans:2},
+    {q:"How many hours of sleep does a 10-year-old child typically need per night?",opts:["6–7 hours","8–10 hours","11–13 hours","14+ hours"],ans:1},
+    {q:"Which country has the most UNESCO World Heritage Sites?",opts:["China","France","Italy","Spain"],ans:2},
+    {q:"The Ho Chi Minh City landmark 'Bitexco Financial Tower' is located in which district?",opts:["District 3","District 5","District 1","Binh Thanh"],ans:2},
+    {q:"Which Vietnamese hero is celebrated on November 20th each year?",opts:["Doctors","Engineers","Teachers","Scientists"],ans:2}
+  ]
+},
+{
+  id:5, title:"Đề Số 5", subtitle:"Tổng hợp – Mô phỏng đề thi thật",
+  topics:["Mixed Sciences","World Geography","Logic","Culture & Daily Life"],
+  questions:[
+    {q:"Which of the following animals can survive both on land and in water?",opts:["Eagle","Frog","Shark","Tiger"],ans:1},
+    {q:"What is the capital city of Australia?",opts:["Sydney","Melbourne","Brisbane","Canberra"],ans:3},
+    {q:"Which of these is a good conductor of electricity?",opts:["Wood","Rubber","Copper","Plastic"],ans:2},
+    {q:"In which hemisphere is Vietnam located?",opts:["Northern and Eastern","Southern and Eastern","Northern and Western","Southern and Western"],ans:0},
+    {q:"What is the unit used to measure electric current?",opts:["Volt","Watt","Ampere","Ohm"],ans:2},
+    {q:"How do bees communicate the location of flowers to other bees?",opts:["By making loud sounds","By performing a waggle dance","By releasing only chemicals","By changing body color"],ans:1},
+    {q:"Which layer of the Earth do we live on?",opts:["Inner Core","Outer Core","Mantle","Crust"],ans:3},
+    {q:"What is the process called when liquid water turns into vapor?",opts:["Condensation","Precipitation","Evaporation","Filtration"],ans:2},
+    {q:"What is the name of the currency used in the United States?",opts:["Pound","Euro","Yen","Dollar"],ans:3},
+    {q:"If you fold a square piece of paper in half twice, how many equal parts do you get?",opts:["2","3","4","6"],ans:2},
+    {q:"What is the name given to a baby kangaroo?",opts:["Cub","Kitten","Foal","Joey"],ans:3},
+    {q:"Which Vietnamese UNESCO World Heritage Site is famous as an ancient trading port?",opts:["Ha Long Bay","Phong Nha Cave","Hoi An Ancient Town","My Son Sanctuary"],ans:2},
+    {q:"How many sides does an octagon have?",opts:["6","7","8","9"],ans:2},
+    {q:"Which sense does the nose use?",opts:["Sight","Hearing","Touch","Smell"],ans:3},
+    {q:"Which planet has rings that are most clearly visible from Earth?",opts:["Jupiter","Saturn","Uranus","Neptune"],ans:1},
+    {q:"What do we call a scientist who studies animals?",opts:["Botanist","Zoologist","Geologist","Astronomer"],ans:1},
+    {q:"Which of the following is a primary color of light?",opts:["Green","Orange","Purple","Blue"],ans:3},
+    {q:"The human heart has how many chambers?",opts:["2","3","4","5"],ans:2},
+    {q:"Which country invented gunpowder?",opts:["England","India","China","Persia"],ans:2},
+    {q:"Which of the following describes a healthy balanced diet?",opts:["Only eating vegetables","Eating a variety of foods from all food groups","Eating large amounts of meat every day","Avoiding all fats and oils"],ans:1}
+  ]
+}
+];
 
-        const dapan = {
-            de1: ['C','C','D','B','B','D','C','C','B','B','C','C','C','C','C','A','B','B','D','B'],
-            de2: ['B','A','B','C','A','C','B','B','B','D','B','C','B','D','B','C','D','B','B','C'],
-            de3: ['C','A','B','C','B','C','A','A','B','C','C','A','A','B','C','A','B','A','B','C'],
-            de4: ['A','B','A','C','B','B','B','A','B','B','A','A','C','B','B','C','B','B','B','B'],
-            de5: ['C','B','A','B','B','C','C','B','B','B','B','B','B','A','C','B','B','C','B','B']
-        };
+// State
+let currentExam=null, currentQ=0, answers=[], timerInterval=null, secondsLeft=1800, examStarted=false;
 
-        // Render câu hỏi vào các div
-        function renderFullTN() {
-            for (let d = 1; d <= 5; d++) {
-                let container = document.getElementById(`de${d}-tracnghiem`);
-                if (!container) continue;
-                let html = '';
-                let ques = cauHoi[`de${d}`];
-                for (let i = 0; i < 20; i++) {
-                    html += `<div class="question">`;
-                    html += `<p><strong>Câu ${i+1}:</strong> ${ques[i]}</p>`;
-                    html += `<div class="options" id="de${d}_cau${i+1}">`;
-                    let letters = ['A','B','C','D'];
-                    for (let opt of letters) {
-                        html += `<label><input type="radio" name="de${d}_q${i+1}" value="${opt}"> ${opt}</label>`;
-                    }
-                    html += `</div></div>`;
-                }
-                container.innerHTML = html;
-            }
-        }
-        renderFullTN();
+// Render home cards
+function renderHome(){
+  document.getElementById('exam-grid').innerHTML=EXAMS.map(e=>`
+    <div class="exam-card ${e.id===5?'featured':''}" onclick="openExam(${e.id-1})">
+      <div class="exam-num">${e.id}</div>
+      <h3>${e.title}</h3>
+      <p>${e.subtitle}</p>
+      <div class="topics">${e.topics.map(t=>`<span class="topic-tag">${t}</span>`).join('')}</div>
+    </div>
+  `).join('');
+}
 
-        // Hàm chấm điểm
-        window.scoreTN = function(maDe) {
-            if (timeExpired) {
-                alert("Đã hết giờ làm bài! Không thể chấm điểm.");
-                return;
-            }
-            let correct = dapan[maDe];
-            let score = 0;
-            for (let i = 1; i <= 20; i++) {
-                let radios = document.getElementsByName(`${maDe}_q${i}`);
-                let selected = null;
-                for (let r of radios) if (r.checked) { selected = r.value; break; }
-                if (selected && selected === correct[i-1]) score++;
-            }
-            document.getElementById(`${maDe}-score`).innerText = score + '/20';
-            alert(`Đề ${maDe.toUpperCase()}: Bạn đúng ${score}/20 câu trắc nghiệm.`);
-        };
+function openExam(idx){
+  currentExam=EXAMS[idx]; currentQ=0; answers=new Array(20).fill(null);
+  secondsLeft=1800; examStarted=false;
+  document.getElementById('overlay-title').textContent=currentExam.title;
+  document.getElementById('overlay-desc').textContent='Chủ đề: '+currentExam.subtitle+'. Đồng hồ sẽ đếm ngược ngay khi bạn bấm Bắt Đầu.';
+  document.getElementById('exam-title').textContent=currentExam.title;
+  document.getElementById('timer-display').textContent='30:00';
+  document.getElementById('timer-display').className='';
+  renderQNav(); renderQ(); updateProgress();
+  showScreen('exam-screen');
+  document.getElementById('start-overlay').style.display='flex';
+}
 
-        // Tab chuyển đổi
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-                document.getElementById(this.dataset.tab).classList.add('active');
-            });
-        });
+function startExam(){
+  document.getElementById('start-overlay').style.display='none';
+  examStarted=true; startTimer();
+}
 
-        // ---------- XỬ LÝ TIMER VÀ START ----------
-        const studentInfo = document.getElementById('student-info');
-        const testContent = document.getElementById('test-content');
-        const timerContainer = document.getElementById('timer-container');
-        const timerEl = document.getElementById('timer');
-        const startBtn = document.getElementById('btn-start');
-        let timeLeft = 90 * 60; // 90 phút = 5400 giây
-        let timerInterval = null;
-        let timeExpired = false;
+function startTimer(){
+  clearInterval(timerInterval);
+  timerInterval=setInterval(()=>{
+    secondsLeft--;
+    const m=String(Math.floor(secondsLeft/60)).padStart(2,'0');
+    const s=String(secondsLeft%60).padStart(2,'0');
+    const el=document.getElementById('timer-display');
+    el.textContent=m+':'+s;
+    el.className=secondsLeft<=300?'warning':'';
+    if(secondsLeft<=0){ clearInterval(timerInterval); alert('⏱ Hết giờ! Bài thi sẽ được nộp tự động.'); submitExam(); }
+  },1000);
+}
 
-        function formatTime(seconds) {
-            let mins = Math.floor(seconds / 60);
-            let secs = seconds % 60;
-            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        }
+function renderQNav(){
+  document.getElementById('q-nav').innerHTML=currentExam.questions.map((_,i)=>
+    `<div class="q-dot${answers[i]!==null?' answered':''}${i===currentQ?' current':''}" onclick="jumpToQ(${i})">${i+1}</div>`
+  ).join('');
+}
 
-        function disableTest() {
-            // Disable tất cả radio và nút chấm điểm
-            document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
-            document.querySelectorAll('.btn-primary').forEach(btn => btn.disabled = true);
-            // Thêm lớp để làm mờ
-            testContent.classList.add('disabled-state');
-            timerEl.style.color = '#ffaaaa';
-            document.getElementById('timer-warning').innerText = ' (Hết giờ)';
-            timeExpired = true;
-        }
+function jumpToQ(i){ currentQ=i; renderQ(); renderQNav(); updateProgress(); }
+function prevQ(){ if(currentQ>0) jumpToQ(currentQ-1); }
+function nextQ(){ if(currentQ<19) jumpToQ(currentQ+1); }
 
-        function startTimer() {
-            if (timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                timerEl.textContent = formatTime(timeLeft);
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    timerEl.textContent = '00:00';
-                    disableTest();
-                }
-            }, 1000);
-        }
+function renderQ(){
+  const q=currentExam.questions[currentQ];
+  const L=['A','B','C','D'];
+  document.getElementById('question-area').innerHTML=`
+    <div class="q-card">
+      <div class="q-num-label">Câu ${currentQ+1} / 20</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.opts.map((o,i)=>`
+          <button class="option-btn${answers[currentQ]===i?' selected':''}" onclick="selectAns(${i})">
+            <span class="option-letter">${L[i]}</span>${o}
+          </button>`).join('')}
+      </div>
+    </div>`;
+  const done=answers.filter(a=>a!==null).length;
+  document.getElementById('answered-count').textContent='Đã trả lời: '+done+'/20 câu';
+}
 
-        startBtn.addEventListener('click', function() {
-            let name = document.getElementById('student-name').value.trim();
-            let age = document.getElementById('student-age').value;
-            if (name === '' || age === '') {
-                alert('Vui lòng nhập đầy đủ họ tên và tuổi.');
-                return;
-            }
-            // Ẩn form, hiện nội dung thi và timer
-            studentInfo.style.display = 'none';
-            testContent.style.display = 'block';
-            timerContainer.style.display = 'block';
-            // Reset timer về 90 phút
-            timeLeft = 90 * 60;
-            timerEl.textContent = formatTime(timeLeft);
-            timeExpired = false;
-            // Xóa trạng thái disabled nếu có
-            testContent.classList.remove('disabled-state');
-            document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = false);
-            document.querySelectorAll('.btn-primary').forEach(btn => btn.disabled = false);
-            document.getElementById('timer-warning').innerText = '';
-            timerEl.style.color = '';
-            // Bắt đầu đếm
-            startTimer();
-        });
-    })();
+function selectAns(idx){
+  if(!examStarted) return;
+  answers[currentQ]=idx; renderQ(); renderQNav(); updateProgress();
+}
+
+function updateProgress(){
+  const done=answers.filter(a=>a!==null).length;
+  document.getElementById('progress-fill').style.width=(done/20*100)+'%';
+  document.getElementById('progress-label').textContent=done+' / 20';
+}
+
+function submitExam(){
+  clearInterval(timerInterval);
+  const unanswered=answers.filter(a=>a===null).length;
+  if(unanswered>0&&!confirm('Bạn còn '+unanswered+' câu chưa trả lời. Bạn có chắc muốn nộp bài không?')) return;
+  let correct=0,wrong=0,skip=0;
+  currentExam.questions.forEach((q,i)=>{
+    if(answers[i]===null) skip++;
+    else if(answers[i]===q.ans) correct++;
+    else wrong++;
+  });
+  const score=correct*2;
+  const pct=(correct/20*100);
+  let verdict,msg;
+  if(pct>=85){verdict='🏆 Xuất sắc!';msg='Kết quả rất ấn tượng – tiếp tục phát huy nhé!';}
+  else if(pct>=70){verdict='⭐ Tốt lắm!';msg='Kết quả tốt – cố thêm một chút nữa là hoàn hảo!';}
+  else if(pct>=55){verdict='👍 Khá!';msg='Cần ôn thêm một số chủ đề. Hãy thử lại!';}
+  else{verdict='📚 Cần cố gắng!';msg='Đừng nản lòng – ôn tập thêm và thử lại nhé!';}
+  document.getElementById('result-exam-name').textContent='ĐỀ SỐ '+currentExam.id+' – '+currentExam.subtitle.toUpperCase();
+  document.getElementById('score-num').textContent=score;
+  document.getElementById('result-verdict').textContent=verdict;
+  document.getElementById('result-msg').textContent=msg;
+  document.getElementById('score-pct').textContent=correct+'/20 câu đúng ('+pct.toFixed(0)+'%)';
+  document.getElementById('st-c').textContent=correct;
+  document.getElementById('st-w').textContent=wrong;
+  document.getElementById('st-s').textContent=skip;
+  const L=['A','B','C','D'];
+  document.getElementById('review-list').innerHTML=currentExam.questions.map((q,i)=>{
+    const ua=answers[i];
+    let cls,badges;
+    if(ua===null){cls='sa';badges='<span class="badge bs">⬜ Bỏ qua</span>';}
+    else if(ua===q.ans){cls='ca';badges='<span class="badge bc">✅ Đúng</span>';}
+    else{cls='wa';badges=`<span class="badge bw">❌ Sai – Bạn chọn: ${L[ua]}. ${q.opts[ua]}</span>
+                          <span class="badge ba">✅ Đáp án đúng: ${L[q.ans]}. ${q.opts[q.ans]}</span>`;}
+    return `<div class="review-item ${cls}">
+      <div class="review-q"><strong>Câu ${i+1}:</strong> ${q.q}</div>
+      <div class="review-badges">${badges}</div>
+    </div>`;
+  }).join('');
+  showScreen('result-screen');
+}
+
+function retryExam(){ openExam(currentExam.id-1); }
+function goHome(){
+  clearInterval(timerInterval);
+  document.getElementById('timer-display').textContent='30:00';
+  document.getElementById('timer-display').className='';
+  showScreen('home-screen');
+}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+renderHome();
 </script>
 </body>
 </html>
